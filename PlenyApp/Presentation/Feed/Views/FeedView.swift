@@ -10,14 +10,42 @@ import SwiftUI
 struct FeedView: View {
     let appCoordinator: AppCoordinator
     @StateObject private var viewModel = FeedViewModel()
-
+    
     @State private var selectedImage: ImageSource?
     @State private var selectedUserId: Int?
-
+    @State private var isSearchBarVisible = false
+    
     var body: some View {
-        VStack {
-            header
+        VStack(spacing: 8) {
+            HStack {
+                if isSearchBarVisible {
+                    SearchBarView(
+                        text: $viewModel.searchQuery,
+                        onClear: {
+                            viewModel.searchQuery = ""
+                            isSearchBarVisible = false
+                        }
+                    )
+                } else {
+                    Text("LOGO")
+                        .font(.title2.bold())
+                        .foregroundStyle(.indigo)
+                    
+                    Spacer()
+                    
+                    Button {
+                        withAnimation {
+                            isSearchBarVisible = true
+                        }
+                    } label: {
+                        Image("searchIcon")
+                    }
+                }
+            }
+            .padding(.horizontal)
+            
             Divider()
+            
             ScrollView {
                 LazyVStack(spacing: 16) {
                     ForEach(viewModel.posts) { post in
@@ -35,52 +63,18 @@ struct FeedView: View {
                         .onAppear {
                             viewModel.fetchNextPageIfNeeded(currentPost: post)
                         }
-
-                        Divider()
                     }
-
+                    
                     if viewModel.isLoadingNextPage {
-                        ProgressView()
-                            .padding()
+                        ProgressView().padding()
                     }
                 }
+                .padding(.horizontal)
             }
         }
-        .fullScreenCover(item: $selectedImage) { image in
-            ZStack(alignment: .topTrailing) {
-                Image(image.name)
-                    .resizable()
-                    .scaledToFit()
-
-                Button(action: {
-                    selectedImage = nil
-                }) {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.gray)
-                        .font(.system(size: 30))
-                        .padding()
-                }
-            }
-        }
-    }
-    
-    private var header: some View {
-        HStack {
-            Text("LOGO")
-                .font(.system(size: 24, weight: .bold))
-                .foregroundColor(.purple)
-
-            Spacer()
-
-            Button(action: {
-                // TODO: Navigate to search
-            }) {
-                Image("searchIcon")
-            }
-        }
-        .padding()
     }
 }
+
 
 #Preview {
     FeedView(appCoordinator: AppCoordinator())
