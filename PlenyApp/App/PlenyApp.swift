@@ -9,11 +9,15 @@ import SwiftUI
 
 @main
 struct PlenyApp: App {
+    @StateObject var appCoordinator = AppCoordinator()
     let persistenceController = PersistenceController.shared
-
+    
     var body: some Scene {
         WindowGroup {
-            Text("Hello, PlenyApp!")
+            appCoordinator.currentView
+                .onAppear {
+                    appCoordinator.start()
+                }
         }
     }
 }
