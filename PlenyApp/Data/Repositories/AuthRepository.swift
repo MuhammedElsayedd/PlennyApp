@@ -6,14 +6,16 @@
 //
 
 import Foundation
+import Combine
 final class AuthRepository: AuthRepositoryProtocol {
-    func login(username: String, password: String, completion: @escaping (Result<User, Error>) -> Void) {
+    func login(username: String, password: String) -> AnyPublisher<User, Error> {
         guard let url = URL(string: Endpoints.baseURL + Endpoints.Auth.login) else {
-            completion(.failure(NSError(domain: "InvalidURL", code: 0)))
-            return
+            return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
         }
 
         let request = LoginRequest(username: username, password: password)
-        APIClient.shared.post(url: url, body: request, requiresAuth: false, completion: completion)
+
+        return APIClient.shared
+            .requestPublisher(url: url, method: .POST, body: request, requiresAuth: false)
     }
 }
