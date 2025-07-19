@@ -26,8 +26,8 @@ final class AppCoordinator: ObservableObject {
     }
 
     func showFeed() {
-        let feedCoordinator = FeedCoordinator(appCoordinator: self)
-        currentView = AnyView(feedCoordinator.view)
+        let mainTabCoordinator = MainTabCoordinator(appCoordinator: self)
+        currentView = AnyView(mainTabCoordinator.view)
     }
     
     func logout() {
