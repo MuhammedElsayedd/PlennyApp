@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import Combine
+
 final class LoginUseCase {
     private let repository: AuthRepositoryProtocol
 
@@ -13,7 +15,7 @@ final class LoginUseCase {
         self.repository = repository
     }
 
-    func execute(username: String, password: String, completion: @escaping (Result<User, Error>) -> Void) {
-        repository.login(username: username, password: password, completion: completion)
+    func execute(username: String, password: String) -> AnyPublisher<User, Error> {
+        repository.login(username: username, password: password)
     }
 }

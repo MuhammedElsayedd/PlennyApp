@@ -68,6 +68,11 @@ struct MainTabView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
             Spacer()
+            Button("Logout") {
+                appCoordinator.logout()
+            }
+            .padding()
+            .foregroundColor(.red)
         }
     }
 }

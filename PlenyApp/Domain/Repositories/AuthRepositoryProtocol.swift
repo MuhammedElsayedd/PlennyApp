@@ -5,7 +5,7 @@
 //  Created by Muhammed Elsayed on 19/07/2025.
 //
 
-import Foundation
+import Combine
 protocol AuthRepositoryProtocol {
-    func login(username: String, password: String, completion: @escaping (Result<User, Error>) -> Void)
+    func login(username: String, password: String) -> AnyPublisher<User, Error>
 }

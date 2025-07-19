@@ -6,20 +6,33 @@
 //
 
 import Foundation
+import Combine
+
 final class APIClient {
     static let shared = APIClient()
 
     private init() {}
 
-    func post<T: Decodable, U: Encodable>(
+    // For requests WITHOUT body (GET)
+    func requestPublisher<T: Decodable>(
         url: URL,
+        method: HTTPMethod,
+        requiresAuth: Bool = true
+    ) -> AnyPublisher<T, Error> {
+        requestPublisher(url: url, method: method, body: EmptyBody(), requiresAuth: requiresAuth)
+    }
+
+    // For requests WITH body (POST/PUT)
+    func requestPublisher<T: Decodable, U: Encodable>(
+        url: URL,
+        method: HTTPMethod,
         body: U,
-        requiresAuth: Bool = true,
-        completion: @escaping (Result<T, Error>) -> Void
-    ) {
+        requiresAuth: Bool = true
+    ) -> AnyPublisher<T, Error> {
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"
+        request.httpMethod = method.rawValue
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
 
         if requiresAuth,
            let token = KeychainHelper.get(for: "accessToken") {
@@ -27,29 +40,22 @@ final class APIClient {
         }
 
         do {
-            request.httpBody = try JSONEncoder().encode(body)
+            if !(body is EmptyBody) {
+                request.httpBody = try JSONEncoder().encode(body)
+            }
         } catch {
-            completion(.failure(error))
-            return
+            return Fail(error: error).eraseToAnyPublisher()
         }
 
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                completion(.failure(error))
-                return
+        return URLSession.shared.dataTaskPublisher(for: request)
+            .tryMap { result in
+                if let httpResponse = result.response as? HTTPURLResponse,
+                   !(200...299).contains(httpResponse.statusCode) {
+                    throw URLError(.badServerResponse)
+                }
+                return result.data
             }
-
-            guard let data = data else {
-                completion(.failure(NSError(domain: "NoData", code: 0)))
-                return
-            }
-
-            do {
-                let decoded = try JSONDecoder().decode(T.self, from: data)
-                completion(.success(decoded))
-            } catch {
-                completion(.failure(error))
-            }
-        }.resume()
+            .decode(type: T.self, decoder: JSONDecoder())
+            .eraseToAnyPublisher()
     }
 }
