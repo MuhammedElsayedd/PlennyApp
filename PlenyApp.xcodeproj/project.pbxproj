@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		EB3846DF2E2D09D800960B26 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = EB3846DE2E2D09D800960B26 /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		EBDCF4B12E2AD87E007B99AD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EB3846DE2E2D09D800960B26 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		EBDCF49B2E2AD87C007B99AD /* PlenyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlenyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBDCF4B02E2AD87E007B99AD /* PlenyAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlenyAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBDCF4BA2E2AD87E007B99AD /* PlenyAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlenyAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +80,7 @@
 		EBDCF4922E2AD87C007B99AD = {
 			isa = PBXGroup;
 			children = (
+				EB3846DE2E2D09D800960B26 /* README.md */,
 				EBDCF49D2E2AD87C007B99AD /* PlenyApp */,
 				EBDCF4B32E2AD87E007B99AD /* PlenyAppTests */,
 				EBDCF4BD2E2AD87E007B99AD /* PlenyAppUITests */,
@@ -212,6 +218,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB3846DF2E2D09D800960B26 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
