@@ -17,9 +17,6 @@ final class MockFeedRepository: FeedRepositoryProtocol {
             body: "Test body",
             title: "Test title",
             userId: 1,
-            tags: ["test"],
-            reactions: Reactions(likes: 10, dislikes: 1),
-            views: 100,
             image: "https://example.com/image.jpg"
         )
     ]

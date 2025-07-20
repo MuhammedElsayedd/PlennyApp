@@ -57,9 +57,6 @@ struct PostCardView: View {
         body: "Craving something delicious? Try our new dish - a savory mix of roasted vegetables and quinoa, topped with a zesty garlic. Yum!",
         title: "Delicious Dish",
         userId: 1,
-        tags: ["food", "vegan"],
-        reactions: Reactions(likes: 120, dislikes: 5),
-        views: 300,
         image: nil
     )
 
