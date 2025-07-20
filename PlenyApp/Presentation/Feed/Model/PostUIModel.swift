@@ -14,10 +14,6 @@ struct PostUIModel: Identifiable, Equatable {
     let timeAgo: String?
     let body: String?
     let postImages: [String]?
-    let likes: Int?
-    let dislikes: Int?
-    let tags: [String]?
-    let views: Int?
 
     init(from post: Post) {
         self.id = post.id
@@ -29,11 +25,6 @@ struct PostUIModel: Identifiable, Equatable {
         self.timeAgo = "Just now"
         self.body = post.body
         self.postImages = Self.getPostImages(for: post.id)
-
-        self.likes = post.reactions?.likes
-        self.dislikes = post.reactions?.dislikes
-        self.tags = post.tags
-        self.views = post.views
     }
 
     private static func getProfileImage(userId: Int?) -> String {

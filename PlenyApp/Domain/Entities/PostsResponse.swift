@@ -14,13 +14,5 @@ struct Post: Identifiable, Decodable {
     let body: String?
     let title: String?
     let userId: Int?
-    let tags: [String]?
-    let reactions: Reactions?
-    let views: Int?
     let image: String?
-}
-
-struct Reactions: Decodable {
-    let likes: Int?
-    let dislikes: Int?
 }
