@@ -27,10 +27,8 @@ struct FeedView: View {
                         }
                     )
                 } else {
-                    Text("LOGO")
-                        .font(.title2.bold())
-                        .foregroundStyle(.indigo)
-                    
+                    logoView
+
                     Spacer()
                     
                     Button {
@@ -72,6 +70,37 @@ struct FeedView: View {
                 .padding(.horizontal)
             }
         }
+        .fullScreenCover(item: $selectedImage) { image in
+            ZStack(alignment: .topTrailing) {
+                Image(image.name)
+                    .resizable()
+                    .scaledToFit()
+                
+                Button(action: {
+                    selectedImage = nil
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.gray)
+                        .font(.system(size: 30))
+                        .padding()
+                }
+            }
+        }
+    }
+    
+    private var logoView: some View {
+        Text("LOGO")
+            .font(.title2.bold())
+            .foregroundStyle(
+                LinearGradient(
+                    stops: [
+                        .init(color: Color(red: 0.31, green: 0.38, blue: 0.92).opacity(0.9), location: 0.0),
+                        .init(color: Color(red: 0.76, green: 0.23, blue: 0.85).opacity(0.9), location: 1.0)
+                    ],
+                    startPoint: UnitPoint(x: 1.47, y: 0.47),
+                    endPoint: UnitPoint(x: 0.47, y: -0.47)
+                )
+            )
     }
 }
 
